@@ -521,10 +521,10 @@
 
 		class BasicCharacterControls {
 			constructor(params) {
-				this._Init(params);
+				this._Init(params); // this. fait référence à l'object courant (la variable this a comme valeur l’objet qui est en train d’être construit.)
 			}
 
-			_Init(params) {
+			_Init(params) {//ici on défini les paramètres à prendre en compte pour le mouvement 
 				this._params = params;
 				this._move = {
 					forward: false,
@@ -532,7 +532,7 @@
 					left: false,
 					right: false,
 				};
-				this._decceleration = new THREE.Vector3(-0.0005, -0.0001, -5.0);
+				this._decceleration = new THREE.Vector3(-0.0005, -0.0001, -5.0); //THREE. est un point dans l'espace 3D
 				this._acceleration = new THREE.Vector3(3, 1, 100);
 				this._velocity = new THREE.Vector3(0, 0, 0);
 
@@ -540,7 +540,7 @@
 				document.addEventListener('keyup', (e) => this._onKeyUp(e), false);
 			}
 
-			_onKeyDown(event) {
+			_onKeyDown(event) { //ici on controle les mouvement de notre object 3D prédéfini à l'avance en  grace au switch case 
 				switch (event.keyCode) {
 					case 87: // w
 						this._move.forward = true;
@@ -562,7 +562,7 @@
 				}
 			}
 
-			_onKeyUp(event) {
+			_onKeyUp(event) {//lorqu'on enlève le doigt sur la touche il arret d'executer 
 				switch (event.keyCode) {
 					case 87: // w
 						this._move.forward = false;
@@ -590,10 +590,10 @@
 					velocity.x * this._decceleration.x,
 					velocity.y * this._decceleration.y,
 					velocity.z * this._decceleration.z
-				);
-				frameDecceleration.multiplyScalar(timeInSeconds);
+				);// pour obtenir la frameDecceleration on multiplie la velocité par la déccélération 
+				frameDecceleration.multiplyScalar(timeInSeconds);//mutiplyscalar multiplie le vecteur par le scalaire (timeInSeconds)
 				frameDecceleration.z = Math.sign(frameDecceleration.z) * Math.min(
-					Math.abs(frameDecceleration.z), Math.abs(velocity.z));
+					Math.abs(frameDecceleration.z), Math.abs(velocity.z)); //Math.sign permet de savoir le signe ; Math.abs retourne la valeur absolue;
 
 				velocity.add(frameDecceleration);
 
@@ -602,24 +602,24 @@
 				const _A = new THREE.Vector3();
 				const _R = controlObject.quaternion.clone();
 
-				if (this._move.forward) {
+				if (this._move.forward) {//mouvement en avant 
 					velocity.z += this._acceleration.z * timeInSeconds;
 				}
-				if (this._move.backward) {
+				if (this._move.backward) {//mouvement en arrière
 					velocity.z -= this._acceleration.z * timeInSeconds;
 				}
-				if (this._move.left) {
+				if (this._move.left) {//permet de se tourner vers la gauche
 					_A.set(0, 1, 0);
 					_Q.setFromAxisAngle(_A, Math.PI * timeInSeconds * this._acceleration.y);
 					_R.multiply(_Q);
 				}
-				if (this._move.right) {
+				if (this._move.right) {//permet de se tourner vers la droite 
 					_A.set(0, 1, 0);
 					_Q.setFromAxisAngle(_A, -Math.PI * timeInSeconds * this._acceleration.y);
 					_R.multiply(_Q);
 				}
 
-				controlObject.quaternion.copy(_R);
+				controlObject.quaternion.copy(_R);//quaternion est utilisé pour représenter les rotation
 
 				const oldPosition = new THREE.Vector3();
 				oldPosition.copy(controlObject.position);
@@ -657,7 +657,7 @@
 				this._RAF();
 			}
 			LoadAnimatedModel() {
-				const loader = new FBXLoader();
+				const loader = new FBXLoader();//permet le bon fonctionnemennt du model (type du model 3D)
 				loader.setPath('resources/ac/');
 				loader.load('skeletonzombie_t_avelange.fbx', (fbx) => {
 					fbx.scale.setScalar(0.9);
@@ -716,7 +716,7 @@
 
 		window.addEventListener('DOMContentLoaded', () => {
 			_APP = new LoadModelDemo();
-		});
+		});//LoadModel est chargé après que le chateau soit bien telechargé
 	</script>
 
 </body>
