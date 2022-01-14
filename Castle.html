@@ -657,7 +657,7 @@
 				this._RAF();
 			}
 			LoadAnimatedModel() {
-				const loader = new FBXLoader();//permet le bon fonctionnemennt du model
+				const loader = new FBXLoader();//permet le bon fonctionnemennt du model (type du model 3D)
 				loader.setPath('resources/ac/');
 				loader.load('skeletonzombie_t_avelange.fbx', (fbx) => {
 					fbx.scale.setScalar(0.9);
@@ -716,7 +716,7 @@
 
 		window.addEventListener('DOMContentLoaded', () => {
 			_APP = new LoadModelDemo();
-		});
+		});//LoadModel est chargé après que le chateau soit bien telechargé
 	</script>
 
 </body>
